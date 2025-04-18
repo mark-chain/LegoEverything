@@ -4,7 +4,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>3D Model with Background</title>
+    <title>Everything is Lego</title>
     <style>
         body,
         html {
@@ -12,57 +12,79 @@
             margin: 0;
             padding: 0;
             overflow: hidden;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
         }
 
         body {
-            background-image: url('x.png');
-            background-position: center;
-            background-repeat: no-repeat;
-            background-size: 98% 98%;
-            background-attachment: fixed;
+            background: linear-gradient(135deg, #ffd89b 0%, #f9ca7e 100%);
+            position: relative;
+        }
+
+        /* Improved particles background */
+        .particles {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: -1;
+            overflow: hidden;
+        }
+
+        .particle {
+            position: absolute;
+            background-color: rgba(255, 255, 255, 0.4);
+            border-radius: 50%;
+            animation: float 15s infinite ease-in-out;
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0) translateX(0);
+            }
+            25% {
+                transform: translateY(-20px) translateX(10px);
+            }
+            50% {
+                transform: translateY(-10px) translateX(-15px);
+            }
+            75% {
+                transform: translateY(-30px) translateX(5px);
+            }
+        }
+
+        /* Improved model viewer */
+        #model-viewer-container {
+            width: 100%;
+            height: 100%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
         }
 
         #model-viewer {
-            width: 50%;
-            height: 50%;
-            position: absolute;
-            top: 25%;
-            left: 20%;
+            width: 60%;
+            height: 60%;
+            margin: auto;
         }
 
-        .image-container {
-            position: absolute;
-            bottom: 5%;
-            left: 50%;
-            transform: translateX(-50%);
-            display: flex;
-            justify-content: center;
-            gap: 20px;
-        }
-
-        .image-container img {
-            height: 100px;
-            border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
-            transition: transform 0.3s ease;
-        }
-
-        .image-container img:hover {
-            transform: scale(1.1);
-            cursor: pointer;
-        }
-
-        .top-left-image {
+        /* Improved logo */
+        .top-left-logo {
             position: absolute;
             top: 20px;
             left: 20px;
             z-index: 10;
             height: 150px;
             border-radius: 10px;
-            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            transition: transform 0.3s ease;
         }
 
-        /* Improved Contract Address Container Styles */
+        .top-left-logo:hover {
+            transform: scale(1.05);
+        }
+
+        /* Improved contract address container */
         .contract-address-container {
             position: absolute;
             top: 20px;
@@ -147,11 +169,86 @@
             font-weight: bold;
         }
 
-        /* Chain icon or crypto logo can be added here */
+        /* Styles for the crypto icon using SVG */
         .crypto-icon {
-            height: 24px;
-            width: 24px;
-            margin-right: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            height: 30px;
+            width: 30px;
+            margin-right: 10px;
+            background-color: rgba(0, 0, 0, 0.2);
+            border-radius: 50%;
+            padding: 5px;
+            box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Improved social icons container */
+        .social-container {
+            position: absolute;
+            bottom: 5%;
+            left: 50%;
+            transform: translateX(-50%);
+            display: flex;
+            justify-content: center;
+            gap: 20px;
+            background-color: rgba(0, 0, 0, 0.4);
+            backdrop-filter: blur(5px);
+            padding: 15px 30px;
+            border-radius: 20px;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            z-index: 100;
+        }
+
+        .social-icon {
+            position: relative;
+            height: 60px;
+            width: 60px;
+            border-radius: 15px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.3);
+            transition: all 0.3s ease;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+        }
+
+        .social-icon img {
+            height: 100%;
+            width: 100%;
+            object-fit: cover;
+            transition: transform 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.4);
+        }
+
+        .social-icon:hover img {
+            transform: scale(1.1);
+        }
+
+        .social-icon::after {
+            content: attr(data-label);
+            position: absolute;
+            bottom: -40px;
+            left: 50%;
+            transform: translateX(-50%);
+            background-color: rgba(0, 0, 0, 0.8);
+            color: white;
+            padding: 5px 10px;
+            border-radius: 5px;
+            font-size: 12px;
+            opacity: 0;
+            transition: all 0.3s ease;
+            white-space: nowrap;
+        }
+
+        .social-icon:hover::after {
+            opacity: 1;
+            bottom: -30px;
         }
 
         /* For responsiveness on mobile */
@@ -172,42 +269,77 @@
                 margin-left: 0;
                 width: 100%;
             }
+
+            .social-container {
+                padding: 10px;
+                gap: 10px;
+            }
+
+            .social-icon {
+                height: 50px;
+                width: 50px;
+            }
+
+            #model-viewer {
+                width: 80%;
+                height: 80%;
+            }
+
+            .top-left-logo {
+                height: 100px;
+            }
         }
     </style>
     <script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
 </head>
 
 <body>
-    <!-- صورة في أعلى اليسار -->
-    <img src="a.png" alt="صورة" class="top-left-image">
+    <!-- Background particles -->
+    <div class="particles" id="particles"></div>
 
-    <!-- عنوان العقد في أعلى اليمين - تصميم محسن -->
+    <!-- Logo in top left -->
+    <img src="a.png" alt="Everything is Lego" class="top-left-logo">
+
+    <!-- Enhanced contract address in top right -->
     <div class="contract-address-container">
-        <!-- Optional: Add Solana logo or chain icon -->
-        <img src="https://cryptologos.cc/logos/solana-sol-logo.png" alt="Solana" class="crypto-icon">
-        
+        <!-- Using an SVG icon instead of external image -->
+        <div class="crypto-icon">
+            <svg viewBox="0 0 24 24" width="24" height="24" fill="#14F195">
+                <path d="M12,1L3,5v6c0,5.55,3.84,10.74,9,12c5.16-1.26,9-6.45,9-12V5L12,1L12,1z M19,11c0,4.52-3.37,8.34-7.8,8.94 C7.03,19.4,3.8,15.91,3.14,11.69L2.15,9h3.25c0.54,0,0.93-0.51,0.77-1.03L4.89,4.92L12,1.97l7.11,2.95L17.84,7.94 C17.67,8.46,18.06,9,18.6,9h3.25L20.86,11.69c-0.06,0.38-0.14,0.75-0.25,1.12H19V11z M7.44,9.5l2.56,2L8.89,15l7-5.5H7.44z"/>
+            </svg>
+        </div>
         <span class="contract-address" id="address">5Tnpv8cUUHoD6i3gRZXRUTQhQ3n5mTQ2ud6skog7pump</span>
         <button class="copy-button" onclick="copyAddress()">Copy</button>
         <div class="copy-success" id="copySuccess">Copied!</div>
     </div>
 
-    <model-viewer id="model-viewer" src="textured.glb" camera-controls auto-rotate ar shadow-intensity="1"
-        environment-image="neutral" exposure="1" shadow-softness="1" camera-orbit="0deg 75deg 4m"
-        min-camera-orbit="auto auto auto" max-camera-orbit="auto auto auto" field-of-view="30deg" auto-rotate-delay="0"
-        rotation-per-second="30deg" interaction-prompt="none" loading="eager" autoplay
-        scale="0.5 0.5 0.5"></model-viewer>
+    <!-- Centered model viewer -->
+    <div id="model-viewer-container">
+        <model-viewer id="model-viewer" src="textured.glb" camera-controls auto-rotate ar shadow-intensity="1"
+            environment-image="neutral" exposure="1" shadow-softness="1" camera-orbit="0deg 75deg 4m"
+            min-camera-orbit="auto auto auto" max-camera-orbit="auto auto auto" field-of-view="30deg" auto-rotate-delay="0"
+            rotation-per-second="30deg" interaction-prompt="none" loading="eager" autoplay
+            scale="0.5 0.5 0.5"></model-viewer>
+    </div>
 
-    <!-- الصور الأفقية تحت المجسم -->
-    <div class="image-container">
-        <img src="z.png" alt="صورة" onclick="window.location.href='https://t.me/EverythingIsLego_CTO'">
-        <img src="z1.png" alt="صورة"
-            onclick="window.location.href='https://dexscreener.com/solana/BZjMuhSC65geQtEf4aF2RNz3ADR3FEWzcqDY1Sp19KEQ'">
-        <img src="z2.png" alt="صورة" onclick="window.location.href='https://x.com/i/communities/1912427167721373724'">
-        <img src="z3.png" alt="صورة"
-            onclick="window.location.href='https://jup.ag/swap/SOL-5Tnpv8cUUHoD6i3gRZXRUTQhQ3n5mTQ2ud6skog7pump'">
+    <!-- Enhanced social icons with labels -->
+    <div class="social-container">
+        <a href="https://t.me/EverythingIsLego_CTO" class="social-icon" data-label="Telegram">
+            <img src="z.png" alt="Telegram">
+        </a>
+        <a href="https://dexscreener.com/solana/BZjMuhSC65geQtEf4aF2RNz3ADR3FEWzcqDY1Sp19KEQ" class="social-icon" data-label="DexScreener">
+            <img src="z1.png" alt="DexScreener">
+        </a>
+        <a href="https://x.com/i/communities/1912427167721373724" class="social-icon" data-label="X Community">
+            <img src="z2.png" alt="X Community">
+        </a>
+        <a href="https://jup.ag/swap/SOL-5Tnpv8cUUHoD6i3gRZXRUTQhQ3n5mTQ2ud6skog7pump" class="social-icon" data-label="Jupiter">
+            <img src="z3.png" alt="Jupiter">
+        </a>
     </div>
 
     <script>
+        // Function to copy contract address
         function copyAddress() {
             const address = document.getElementById('address').textContent;
             navigator.clipboard.writeText(address).then(function () {
@@ -220,6 +352,36 @@
                 }, 2000);
             });
         }
+
+        // Create background particles
+        document.addEventListener('DOMContentLoaded', function() {
+            const particlesContainer = document.getElementById('particles');
+            const particleCount = 20;
+            
+            for (let i = 0; i < particleCount; i++) {
+                const particle = document.createElement('div');
+                particle.classList.add('particle');
+                
+                // Random size between 10px and 40px
+                const size = Math.random() * 30 + 10;
+                particle.style.width = `${size}px`;
+                particle.style.height = `${size}px`;
+                
+                // Random position
+                const posX = Math.random() * 100;
+                const posY = Math.random() * 100;
+                particle.style.left = `${posX}%`;
+                particle.style.top = `${posY}%`;
+                
+                // Random delay for animation
+                particle.style.animationDelay = `${Math.random() * 15}s`;
+                
+                // Random opacity
+                particle.style.opacity = Math.random() * 0.5 + 0.1;
+                
+                particlesContainer.appendChild(particle);
+            }
+        });
     </script>
 </body>
 
